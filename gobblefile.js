@@ -25,19 +25,19 @@ module.exports = gobble([
 		// first, we bundle our ES6 modules into a single file
 		.transform( 'rollup', {
 			entry: 'main.js',
-			format: 'cjs',
-			external: [ 'moment' ],
+			format: 'cjs', //          <-- so that browserify can deal with it
+			external: [ 'moment' ], // <-- otherwise rollup complains about importing from moment
 			sourceMap: true
 		})
 
 		// then we convert the ES6 stuff (const etc) to ES5
-		.transform( 'babel' )
+		.transform( 'babel' ) // <-- using config from .babelrc
 
 		// then we include external dependencies from node_modules
 		.transform( 'browserify', {
 			entries: [ './main' ],
 			dest: 'bundle.js',
-			debug: true
+			debug: true // for sourcemaps
 		})
 
 		// if we're building, minify. otherwise whatevs
